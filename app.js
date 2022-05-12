@@ -6,6 +6,8 @@ const methodOverride = require('method-override')
 const res = require('express/lib/response')
 const req = require('express/lib/request')
 
+
+mongoose.connect('mongodb://localhost/blogApp2');
 app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
@@ -19,35 +21,53 @@ let blogSchema = new mongoose.Schema({
 let Blog = mongoose.model('Blog', blogSchema)
 
 
-
 app.get('/', (req, res) => {
-    res.render('home')
+    res.redirect('/blogs')
 })
 
 app.get('/blogs', (req, res) => {
-    res.render('home')
+    Blog.find({}, (err, blogs) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.render('home', { blogs: blogs })
+        }
+    })
 })
 
 // new post
 
-app.get('/new', (req, res) => {
+app.get('/blogs/new', (req, res) => {
     res.render('new')
 })
 
-app.post('/new', (req, res) => {
-    let author = req.body.author
-    let title = req.body.title
-    Blog.create(author, (err) => {
+app.post('/blogs', (req, res) => {
+    // let author = req.body.author
+    // let title = req.body.title
+    // let newStuff = ({ author: author, title: title })
+    Blog.create(req.body.blog, (err) => {
         if (err) {
             console.log(err);
         } else {
-            console.log("Data saved");
+            res.redirect('/blogs')
+        }
+    })
+})
+
+// Show route
+
+app.get('/blogs/:id', (req, res) => {
+    Blog.findById(req.params.id, (err, foundBlog) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.render('show', { blog: foundBlog })
         }
     })
 })
 
 
-app.get('/edit', (req, res) => {
+app.get('/blogs/edit', (req, res) => {
     res.render('edit')
 })
 
