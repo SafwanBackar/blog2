@@ -66,10 +66,34 @@ app.get('/blogs/:id', (req, res) => {
     })
 })
 
+// Edit Route
 
-app.get('/blogs/edit', (req, res) => {
-    res.render('edit')
+app.get('/blogs/:id/edit', (req, res) => {
+    Blog.findById(req.params.id, (err, editBlog) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.render('edit', { blog: editBlog })
+        }
+    })
 })
+
+app.put('/blogs/:id', (req, res) => {
+    Blog.findByIdAndUpdate(req.params.id, req.body.blog, (err, editedBlog) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.redirect('/blogs/' + req.params.id)
+        }
+    })
+})
+
+// Delete Route
+app.delete('/blogs/:id', (req, res) => {
+
+})
+
+
 
 app.listen(4545, () => {
     console.log('Server started');
