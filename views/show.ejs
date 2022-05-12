@@ -1,9 +1,11 @@
 <h1>Show route</h1>
 <div>
-    <%= blog.author%>
-        <%= blog.title%>
-            <a href="/blogs/<%= blog._id %>/edit">Edit this</a>
-            <form action="/blogs/<%= blog._id %>?_method=DELETE" method="post">
-                <button type="submit">Delete data </button>
-            </form>
+    Author : <%= blog.author%>
+</div>
+<div>
+    Title : <%= blog.title%>
+        <a href="/blogs/<%= blog._id %>/edit">Edit this</a>
+        <form action="/blogs/<%= blog._id %>?_method=DELETE" method="post">
+            <button type="submit">Delete data </button>
+        </form>
 </div>
