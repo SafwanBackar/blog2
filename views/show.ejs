@@ -3,4 +3,7 @@
     <%= blog.author%>
         <%= blog.title%>
             <a href="/blogs/<%= blog._id %>/edit">Edit this</a>
+            <form action="/blogs/<%= blog._id %>?_method=DELETE" method="post">
+                <button type="submit">Delete data </button>
+            </form>
 </div>

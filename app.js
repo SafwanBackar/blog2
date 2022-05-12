@@ -90,7 +90,13 @@ app.put('/blogs/:id', (req, res) => {
 
 // Delete Route
 app.delete('/blogs/:id', (req, res) => {
-
+    Blog.findByIdAndDelete(req.params.id, (err, deleteBlog) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.redirect('/blogs')
+        }
+    })
 })
 
 
